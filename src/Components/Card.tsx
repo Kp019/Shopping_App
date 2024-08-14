@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useSelector } from "react-redux"
 import { checkDuplicateInCart } from "../Utils/checkCartDuplicate"
-import { useEffect } from "react"
 
 function Card({...data}) {
 

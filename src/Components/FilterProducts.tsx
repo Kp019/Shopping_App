@@ -9,10 +9,11 @@ interface Product {
     title: string;
     price: number;
     category: string;
-}
-
+    rating: { rate: number };
+  }
+  
 function FilterProducts({action}: { action: string }) {
-    const products = useSelector(state => state.product.products);
+    const products = useSelector((state) => state.product.products);
     const [search, setSearch] = useState('')
     const [productFilteredData, setProductFilteredData] = useState<Product[]>([]);
     const [productSort, setProductSort] = useState('')

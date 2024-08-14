@@ -36,7 +36,7 @@ const AddProduct = () => {
     const existingProducts = localStorage.getItem('products');
     // console.log(existingProducts);
     
-    const products = existingProducts ? JSON.parse(existingProducts) : [];
+    let products = existingProducts ? JSON.parse(existingProducts) : [];
     products.push(data);
     dispact(addProduct(data))
     localStorage.setItem('products', JSON.stringify(products));

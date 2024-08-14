@@ -16,7 +16,7 @@ function Navbar() {
   useEffect(()=>{
     let count = 0
     // console.log(cart);
-    cart.map((items)=>{
+    cart.forEach((items)=>{
       if(items.userID === user?.sub){
         count += 1
       }

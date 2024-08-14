@@ -3,7 +3,22 @@ import { useDispatch } from 'react-redux';
 import { updateProduct } from '../Redux/actions/ProductActions';
 import { PrimaryButton, SecondaryButton } from './ui-components/Button';
 
-const EditProduct = ({ isproductedit, product }) => {
+interface Product {
+  id: number;
+  title: string;
+  price: number;
+  image: string;
+  category: string;
+  description: string;
+  rating: number;
+}
+
+interface Props {
+  isproductedit: (isEdit: boolean) => void;
+  product: Product;
+}
+
+const EditProduct: React.FC<Props> = ({ isproductedit, product }) => {
   const dispatch = useDispatch();
   console.log(product);
   
@@ -42,7 +57,7 @@ const EditProduct = ({ isproductedit, product }) => {
           </div>
           <div className='flex flex-col gap-2'>
             <label>Price:</label>
-            <input className='shadow-xl w-96 p-4 rounded-md border-2' type="text" value={price} onChange={(e) => setPrice(e.target.value)} />
+            <input className='shadow-xl w-96 p-4 rounded-md border-2' type="text" value={price} onChange={(e) => setPrice(Number(e.target.value))} />
           </div>
           <div className='flex flex-col gap-2'>
             <label>Image:</label>
@@ -53,7 +68,7 @@ const EditProduct = ({ isproductedit, product }) => {
             <input className='shadow-xl w-96 p-4 rounded-md border-2' type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
           </div>
           <div className='flex flex-row gap-2'>
-            <button className='' onClick={handleUpdateProduct} type="submit"><PrimaryButton btnName = {'update'}/></button>
+            <button className='' onClick={(e)=> {handleUpdateProduct(e)}} type="submit"><PrimaryButton btnName = {'update'}/></button>
             <button className='' onClick={()=>{isproductedit(false)}} type='submit'><SecondaryButton btnName={'cancel'}/></button>
           </div>
         </form>

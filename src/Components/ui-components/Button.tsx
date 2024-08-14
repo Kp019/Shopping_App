@@ -1,3 +1,8 @@
+interface ButtonProps {
+    btnName: string;
+  }
+
+  
 export const CartButtons = () => {
     return (
         <div className="flex  border-2 px-6 py-2 w-full rounded-full justify-center items-center gap-2 hover:shadow-lg duration-300">
@@ -7,13 +12,13 @@ export const CartButtons = () => {
     )
 }
 
-export const PrimaryButton = ({btnName}) => {
+export const PrimaryButton = ({btnName}:ButtonProps) => {
     return (
         <button className="bg-blue-700 text-white w-full px-6 py-2 rounded-full">{btnName}</button>
     )
 }
 
-export const SecondaryButton = ({btnName}) => {
+export const SecondaryButton = ({btnName}:ButtonProps) => {
     return (
         <button className="bg-blue-500 border-2 text-white w-full px-6 py-2 rounded-full">{btnName}</button>
     )

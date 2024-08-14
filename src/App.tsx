@@ -5,8 +5,8 @@ import ProductList from './Pages/ProductList';
 import Login from './Components/Login';
 import Cart from './Pages/Cart';
 import ShowProfile from './Pages/ShowProfile';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+// import { useDispatch } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import ProductDetails from './Components/ProductDetails';
 import ProductAnalytics from './Components/ProductAnalitics';
 // import Test from './Pages/Test';
@@ -14,8 +14,8 @@ import ProductAnalytics from './Components/ProductAnalitics';
 
 const App = () => {
 
-  const dispatch = useDispatch();
-  const products = useSelector(state => state.product.products);
+  // const dispatch = useDispatch();
+  // const products = useSelector(state => state.product.products);
   // console.log(products)
 
   // useEffect(() => {
@@ -24,7 +24,7 @@ const App = () => {
 
   // }, [dispatch]);
 
-  console.log(products);
+  // console.log(products);
   
 
 

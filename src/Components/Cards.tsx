@@ -15,6 +15,8 @@ interface TestData {
       rate: number;
       count: number;
     };
+    id: number;
+    category: string;
   }
   
   interface TestProps {
@@ -55,7 +57,7 @@ function Cards({action, setIsproduct, setIsEdit, ...data}: TestProps) {
 
     const { user, isAuthenticated } = useAuth0()
     const dispatch = useDispatch()
-    const cartItems = useSelector(state => state.cart.cartItems);
+    const cartItems = useSelector((state) => state.cart.cartItems);
     useEffect(()=>{
         // console.log(user?.sub);
         

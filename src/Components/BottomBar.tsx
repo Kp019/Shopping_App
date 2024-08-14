@@ -2,8 +2,12 @@ import AdminProductsList from "../Pages/AdminProductsList"
 import AddProduct from "./AddProduct"
 import AllUserData from "./AllUsers"
 
+interface Props {
+  component: (component: JSX.Element) => void;
+}
 
-function BottomBar({component}) {
+
+function BottomBar({component}: Props) {
   return (
     <div className=' z-10 flex flex-col sm:flex-row fixed bottom-0 sm:gap-10 bg-blue-100 sm:px-8 sm:py-3 rounded-md sm:rounded-full mb-20 shadow-xl hover:shadow-md duration-300 justify-center items-center'>
       <div className="flex">

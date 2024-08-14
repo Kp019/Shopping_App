@@ -9,21 +9,38 @@ import { Counterbtn } from '../Components/ui-components/Couter';
 import { useAuth0 } from '@auth0/auth0-react';
 import Login from '../Components/Login';
 
+interface CartItem {
+    id: number;
+    title: string;
+    image: string;
+    rating: {
+      rate: number;
+      count: number;
+    };
+    price: number;
+    quantity: number;
+    userID: string;
+  }
+  
+  interface CartState {
+    cartItems: CartItem[];
+  }
+
 const Cart = () => {
     const dispatch = useDispatch();
-    const cartItems = useSelector(state => state.cart.cartItems);
+    const cartItems = useSelector((state:CartState) => state.cart.cartItems);
     const { isAuthenticated, user} = useAuth0()
     const [price, setprice] = useState(0)
     const [auth,setAuth] = useState(false)
-    const [filteredCartItems, setFilteredCartItems] = useState([])
+    const [filteredCartItems, setFilteredCartItems] = useState<CartItem[]>([]);
     const [tax, setTax] = useState(0)
     const [shipping, setShipping] = useState(0)
     const [subtotal, setSubTotal] = useState(0)
 
     const handlePriceCalculator = () => {
       const userID = user?.sub
-      const userCartItems = cartItems.filter((items)=> items.userID === userID )
-      let totalCost = parseFloat((userCartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)))
+      const userCartItems = cartItems.filter((items:CartItem)=> items.userID === userID )
+      let totalCost = parseFloat((userCartItems.reduce((acc: number, item: number) => acc + item.price * item.quantity, 0)))
       setSubTotal(totalCost.toFixed(3))
       const taaxx = (totalCost*18)/100
       const shippings = 20
@@ -33,23 +50,23 @@ const Cart = () => {
       setprice(totalCost.toFixed(3))
     } 
 
-    const handleUpdateQuantity = (productId, quantity) => {
+    const handleUpdateQuantity = (productId: number, quantity: number) => {
         if(quantity>=1){
             dispatch(updateCartItem(productId, quantity));
         }
     };
     
-    const handleRemoveItem = (productId) => {
+    const handleRemoveItem = (productId: number) => {
         dispatch(removeFromCart(productId));
     };
     
     useEffect(()=>{
-        setFilteredCartItems(cartItems.filter(item => item.userID === user?.sub));
+        setFilteredCartItems(cartItems.filter((item:CartItem) => item.userID === user?.sub));
         handlePriceCalculator()
         if(isAuthenticated){
             setAuth(true)
         }
-    }, [isAuthenticated, cartItems])
+    }, [isAuthenticated, cartItems, user])
 
     if(!auth){
         return(

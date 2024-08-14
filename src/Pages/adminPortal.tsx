@@ -12,7 +12,7 @@ const AdminPortal = () => {
     const {user} = useAuth0()
     const [isAuth, setIsAuth] = useState(false)
     const navigate = useNavigate()
-    const [isOpen, setIsOpen] = useState(true)
+    // const [isOpen, setIsOpen] = useState(true)
     
     useEffect(()=>{
         if(user?.email === "krishnaprasadr666@gmail.com"){
@@ -20,7 +20,7 @@ const AdminPortal = () => {
         }
     }, [user])
 
-    const handleComponentSelect = (component:unknown) => {
+    const handleComponentSelect = (component:JSX.Element) => {
         setSelectedComponent(component)
     }
 
