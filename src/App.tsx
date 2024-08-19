@@ -9,6 +9,9 @@ import ShowProfile from './Pages/ShowProfile';
 // import { useSelector } from 'react-redux';
 import ProductDetails from './Components/ProductDetails';
 import ProductAnalytics from './Components/ProductAnalitics';
+import SuccessPage from './Pages/SuccessPage';
+// import { useEffect } from 'react';
+// import { fetchProducts } from './Redux/actions/ProductActions';
 // import Test from './Pages/Test';
 
 
@@ -19,9 +22,7 @@ const App = () => {
   // console.log(products)
 
   // useEffect(() => {
-
   //   dispatch(fetchProducts());
-
   // }, [dispatch]);
 
   // console.log(products);
@@ -38,8 +39,8 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
         <Route path="/product/:id" element={<ProductDetails />} />
-        <Route path='/dashboard' element={<ProductAnalytics/>} />
-        {/* <Route path='/test' element={<Test/>}/> */}
+        <Route path='/dashboard' element={<ProductAnalytics/>}/>
+        <Route path='/success' element={<SuccessPage/>}/>
       </Routes>
     </Router>
   );

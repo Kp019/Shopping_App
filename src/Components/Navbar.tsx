@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Profile from "./Profile";
 import { useSelector } from "react-redux";
-// import Profile from "../pages/profile";
-// import { getItemCountFromIndexedDB } from "./IndexDB";
 
 
 function Navbar() {

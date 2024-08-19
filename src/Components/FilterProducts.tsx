@@ -3,8 +3,11 @@ import { useEffect, useState } from 'react';
 import Cards from '../Components/Cards';
 import EditProduct from './EditProduct';
 import { Dropdown } from './ui-components/DropDown';
+import { Alert } from './Alert';
+import { Component } from './ui-components/Carousel';
 
 interface Product {
+    product: any;
     id: number;
     title: string;
     price: number;
@@ -13,7 +16,7 @@ interface Product {
   }
   
 function FilterProducts({action}: { action: string }) {
-    const products = useSelector((state) => state.product.products);
+    const products = useSelector((state:Product) => state.product.products);
     const [search, setSearch] = useState('')
     const [productFilteredData, setProductFilteredData] = useState<Product[]>([]);
     const [productSort, setProductSort] = useState('')
@@ -21,6 +24,21 @@ function FilterProducts({action}: { action: string }) {
     const [rating, setRating] = useState('');
     const [isEdit, setIsEdit]= useState(false)
     const [editProduct, setEditProduct] = useState({});
+    const [alerts, setAlerts] = useState('')
+
+    // console.log(products);
+    
+
+    const handlealerts = (text:string) => {
+        setAlerts(text)
+        console.log(text);
+    }
+
+    const handlealertfn = (flag:boolean) => {
+        if(flag){
+          setAlerts('')
+        }
+      }
 
     const handleFilter = (e: React.ChangeEvent<HTMLSelectElement>, type: string) => {
         e.preventDefault()
@@ -77,7 +95,13 @@ function FilterProducts({action}: { action: string }) {
     }
 
   return (
-    <div className='py-10'>
+      <div className='py-10 flex flex-col items-center'>
+        {alerts.length > 0 && (
+            <div className="fixed flex justify-center items-center z-20">
+                <Alert text={alerts} fn={handlealertfn} />
+            </div>
+        )}
+        {/* <Carousel productList = {products}/> */}
         <div className='flex flex-col-reverse lg:flex-row justify-center items-center gap-10 sm:py-40 py-20'>
             <div className='flex gap-8 flex-wrap justify-center items-center'>
                 <Dropdown
@@ -120,8 +144,8 @@ function FilterProducts({action}: { action: string }) {
                     return (
                         <div key={datas.id} className='flex flex-row flex-wrap'>
                             { action === 'buy' ? 
-                                <Cards action={'buy'} setIsproduct={false} setIsEdit={false} {...datas}/> : 
-                                <Cards action={'edit'} setIsproduct={setEditProduct} setIsEdit={setIsEdit} {...datas}/>
+                                <Cards action={'buy'} alertsFn = {handlealerts} setIsproduct={false} setIsEdit={false} {...datas}/> : 
+                                <Cards data={undefined} action={'edit'} setIsproduct={setEditProduct} setIsEdit={setIsEdit} {...datas}/>
                             }
                         </div>
                     )

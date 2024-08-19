@@ -10,6 +10,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import Login from '../Components/Login';
 
 interface CartItem {
+    subPrice: ReactNode;
     id: number;
     title: string;
     image: string;
@@ -29,7 +30,7 @@ interface CartItem {
 const Cart = () => {
     const dispatch = useDispatch();
     const cartItems = useSelector((state:CartState) => state.cart.cartItems);
-    const { isAuthenticated, user} = useAuth0()
+    const { isAuthenticated, user, isLoading} = useAuth0()
     const [price, setprice] = useState(0)
     const [auth,setAuth] = useState(false)
     const [filteredCartItems, setFilteredCartItems] = useState<CartItem[]>([]);
@@ -50,14 +51,36 @@ const Cart = () => {
       setprice(totalCost.toFixed(3))
     } 
 
-    const handleUpdateQuantity = (productId: number, quantity: number) => {
+    const handleUpdateQuantity = (productId: number, quantity: number, price:number) => {
+        console.log(quantity);
+        const subprice = price*quantity
+        
         if(quantity>=1){
-            dispatch(updateCartItem(productId, quantity));
+            dispatch(updateCartItem(productId, quantity, subprice));
+            console.log(price*quantity);
         }
     };
     
     const handleRemoveItem = (productId: number) => {
         dispatch(removeFromCart(productId));
+    };
+
+    const handleCheckout = () => {
+        // Generate and download invoice
+    const invoiceData = filteredCartItems.map((item) => ({
+        title: item.title,
+        price: item.price,
+        quantity: item.quantity,
+    }));
+
+      // Add invoice data to local storage
+    localStorage.setItem('invoiceData', JSON.stringify(invoiceData));
+    // Remove all items from cart
+    filteredCartItems.forEach((item) => dispatch(removeFromCart(item.id)));
+
+    // Redirect to success page
+    window.location.href = '/success';
+    
     };
     
     useEffect(()=>{
@@ -67,6 +90,15 @@ const Cart = () => {
             setAuth(true)
         }
     }, [isAuthenticated, cartItems, user])
+
+
+    if(isLoading){
+        return(
+            <div className='flex justify-center items-center h-[100vh]'>
+              <svg className='w-80 flex justify-center items-center' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle fill="none" stroke-opacity="1" stroke="#bff3ff" stroke-width=".5" cx="100" cy="100" r="0"><animate attributeName="r" calcMode="spline" dur="2" values="1;80" keyTimes="0;1" keySplines="0 .2 .5 1" repeatCount="indefinite"></animate><animate attributeName="stroke-width" calcMode="spline" dur="2" values="0;25" keyTimes="0;1" keySplines="0 .2 .5 1" repeatCount="indefinite"></animate><animate attributeName="stroke-opacity" calcMode="spline" dur="2" values="1;0" keyTimes="0;1" keySplines="0 .2 .5 1" repeatCount="indefinite"></animate></circle></svg>
+            </div>
+        )
+      }
 
     if(!auth){
         return(
@@ -79,6 +111,7 @@ const Cart = () => {
     return (
         <div className=''>
             <Navbar />
+            {/* {filteredCartItems} */}
             <div className='flex flex-col justify-center items-center pt-32'>
                 <h1 className='text-3xl font-bold'>Shopping Cart</h1>
                 <div className='w-full overflow-y-auto py-10'>
@@ -101,11 +134,15 @@ const Cart = () => {
                                                 </span>({item.rating.count})</div>: ''}
                                             </div>
                                             <div className='flex justify-center items-center gap-3 bg-stone-200 p-2 rounded-lg'>
-                                                <div onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}><Counterbtn action={'add'}/></div>
+                                                <div onClick={() => handleUpdateQuantity(item.id, item.quantity + 1, item.price)}><Counterbtn action={'add'}/></div>
                                                 <div className='text-xl'>{item.quantity}</div>
-                                                <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}><Counterbtn action={''}/></button>
+                                                <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1, item.price)}><Counterbtn action={''}/></button>
                                             </div>
+                                            {item.subPrice>0?
+                                            <div className="flex text-2xl font-extrabold items-start text-left">${item.subPrice}</div>
+                                            :
                                             <div className="flex text-2xl font-extrabold items-start text-left">${item.price}</div>
+                                            }
                                         </div>
                                         <div className=' flex top-0'>
                                             <div className=' text-red-500 hover:cursor-pointer' onClick={() => handleRemoveItem(item.id)}>
@@ -126,13 +163,17 @@ const Cart = () => {
                             </div>
                             <div className=' space-y-3'>
                                 <div className=''>
-                                    <div>Total :</div><div className='text-2xl font-bold'>${price}</div></div>
-                                <button className='w-full'><PrimaryButton btnName = {'Check Out'}/></button>
+                                    <div>Total :</div>
+                                    <div className='text-2xl font-bold'>${price}</div>
+                                </div>
+                                <button onClick={handleCheckout} className='w-full'>
+                                    <PrimaryButton btnName = {'Check Out'}/>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                :<div></div>}
+                :<div className='flex justify-center items-center text-5xl'>Cart is empty</div>}
                 </div>
             </div>
         </div>

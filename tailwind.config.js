@@ -1,3 +1,6 @@
+const flowbite = require("flowbite-react/tailwind");
+const colors = require('tailwindcss/colors')
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
@@ -6,9 +9,16 @@ module.exports = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
+      flowbite.content(),
   ],
   prefix: "",
   theme: {
+    colors: {
+      gray: colors.coolGray,
+      blue: colors.lightBlue,
+      red: colors.rose,
+      pink: colors.fuchsia,
+    },
     container: {
       center: true,
       padding: "2rem",
@@ -73,5 +83,8 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"),
+    flowbite.plugin(),
+
+  ],
 }

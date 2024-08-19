@@ -8,8 +8,8 @@ export const addToCart = (product) => {
     return { type: ADD_TO_CART, payload: product };
 };
 
-export const updateCartItem = (productId, quantity) => {
-    return { type: UPDATE_CART_ITEM, payload: { productId, quantity } };
+export const updateCartItem = (productId: number, quantity: number, price: number) => {
+    return { type: UPDATE_CART_ITEM, payload: { productId, quantity, price } };
 };
 
 export const removeFromCart = (productId) => {

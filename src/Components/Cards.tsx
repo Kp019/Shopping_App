@@ -6,6 +6,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useSelector } from "react-redux";
 import { checkDuplicateInCart } from "../Utils/checkCartDuplicate";
 import { addToCart } from "../Redux/actions/CartActions";
+import { Alert } from "./Alert";
+import { log } from "console";
 
 interface TestData {
     image: string;
@@ -45,10 +47,9 @@ export const updateCartData = (title: string, category: string) => {
   };
   
 
-function Cards({action, setIsproduct, setIsEdit, ...data}: TestProps) {
+function Cards({alertsFn, action, setIsproduct, setIsEdit, ...data}: TestProps) {
     const [btn, setBtn] = useState<JSX.Element | null>(null);
     const [btn2, setBtn2] = useState<JSX.Element | null>(null);
-    // const [expand, setExpanded] = useState(false)
     const [isExpanded, setIsExpanded] = useState(true);
 
     const toggleTitle = () => {
@@ -79,28 +80,19 @@ function Cards({action, setIsproduct, setIsEdit, ...data}: TestProps) {
     const handleDeleteProduct = (productId: number) => {
         dispatch(deleteProduct(productId));
     };
-    
-    
-    // const handleAddtoCartNavigate = () => {
-    //     if (!checkDuplicateInCart(data, cartItems, user?.sub)) {
-    //         data['userID'] = user?.sub
-    //         dispatch(addToCart(data))
-    //         window.location.href = '/cart'
-    //     } else {
-    //         alert('Item already exists in cart')
-    //     }
-    // }
-        
+
     const handleAddtoCart = () => {
         console.log(data);
         if (!checkDuplicateInCart(data, cartItems, user?.sub) && isAuthenticated) {
             data['userID'] = user?.sub
             dispatch(addToCart(data))
             updateCartData(data.title, data.category);
-            alert('product added')
+            // setAlert('product added')
+            alertsFn('product added')
         } else{
             if(isAuthenticated){
-                alert('Item already exists in cart')
+                // setAlert('Item already exists in cart')
+                alertsFn('Item already exists in cart')
             }else{
                 window.location.href = '/login'
             }
@@ -110,10 +102,11 @@ function Cards({action, setIsproduct, setIsEdit, ...data}: TestProps) {
     const handlenavigaet = () =>{
         window.location.href = `/product/${data.id}`
     }
-  
-
-  return (
-    <div className=' relative flex flex-col w-[300px] justify-center items-center bg-[#fff] border-2 overflow-hidden group hover:shadow-xl duration-300'>
+    
+    // {alert.length > 0 ? <Alert text={alert} fn = {handlealert}/> : ''}
+    
+    return (
+        <div className=' relative flex flex-col w-[300px] justify-center items-center bg-[#fff] border-2 overflow-hidden group hover:shadow-xl duration-300'>
         <div onClick={action === 'buy' ? handlenavigaet : undefined} className=" aspect-square w-full overflow-hidden flex justify-center items-center ">
             {action==='buy'?
             <div className="absolute bg-white rounded-full shadow-lg p-2 flex justify-center items-center opacity-0 sm:group-hover:opacity-100 duration-500 translate-y-10 group-hover:translate-y-0">

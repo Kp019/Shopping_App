@@ -1,6 +1,4 @@
 // src/redux/reducers/cartReducer.js
-
-import { useAuth0 } from '@auth0/auth0-react';
 import { ADD_TO_CART, UPDATE_CART_ITEM, REMOVE_FROM_CART } from '../actions/CartActions';
 
 const initialState = {
@@ -16,7 +14,7 @@ const cartReducer = (state = initialState, action) => {
             return {
                 ...state,
                 cartItems: state.cartItems.map(item =>
-                    item.id === action.payload.productId ? { ...item, quantity: action.payload.quantity } : item
+                    item.id === action.payload.productId ? { ...item, quantity: action.payload.quantity, subPrice: action.payload.price } : item
                 ),
             };
         case REMOVE_FROM_CART:

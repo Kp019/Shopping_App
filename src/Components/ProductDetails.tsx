@@ -8,6 +8,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { checkDuplicateInCart } from "../Utils/checkCartDuplicate";
 import Cards, { updateCartData } from "./Cards";
 import { SecondaryButton } from "./ui-components/Button";
+import { Alert } from "./Alert";
 
 interface Product {
   id: number;
@@ -32,33 +33,40 @@ function ProductDetails() {
   const [product, setProduct] = useState<Product | null>(null);
   const [productCategory, setProductCategory] = useState("");
   const [similarProducts, setSimilarProducts] = useState<Product[]>([]);
+  const [alert, setAlert] = useState('')
+
+
+    const handlealert = (flag:boolean) => {
+      if(flag){
+        setAlert('')
+      }
+    }
 
     useEffect(()=>{
-        const productss = products.find((uproduct) => uproduct.id == productId);
-        // console.log(product)
+        const productss = products.find((uproduct: { id: number; }) => uproduct.id == productId);
         setProductCategory(productss.category)
-        const proSmi = products.filter((item) => item.category === productCategory)
+        const proSmi = products.filter((item: { category: string; }) => item.category === productCategory)
         setSimilarProducts(proSmi)
         console.log(proSmi);
-        // console.log(productss.category)
         setProduct(productss)
     }, [products, productId, productCategory])
 
     const handleAddToCart = () => {
-        const productss = products.find((uproduct) => uproduct.id == productId);
+        const productss = products.find((uproduct: { id: number; }) => uproduct.id == productId);
         if (!checkDuplicateInCart(productss, cartItems, user?.sub)) {
           productss['userID'] = user?.sub
           dispatch(addToCart(productss))
           updateCartData(productss.title, productss.category)
-          alert('product added to cart')
+          setAlert('product added to cart')
         } else {
-            alert('Item already exists in cart')
+          setAlert('Item already exists in cart')
         }
     }
 
 
   return (
-    <div className='flex flex-col gap-20'>
+    <div className='flex flex-col gap-20 items-center'>
+      {alert.length > 0 ? <Alert text={alert} fn = {handlealert}/> : ''}
         <Navbar/>
         <div className='flex flex-col items-start justify-center gap-20 px-20 py-40 w-full'>
             <div className='flex md:flex-row flex-col justify-center items-center w-full gap-16'>
