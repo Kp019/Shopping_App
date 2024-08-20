@@ -89,7 +89,7 @@ const Cart = () => {
         if(isAuthenticated){
             setAuth(true)
         }
-    }, [isAuthenticated, cartItems, user])
+    }, [isAuthenticated, cartItems, user, handlePriceCalculator])
 
 
     if(isLoading){

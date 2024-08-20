@@ -6,8 +6,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useSelector } from "react-redux";
 import { checkDuplicateInCart } from "../Utils/checkCartDuplicate";
 import { addToCart } from "../Redux/actions/CartActions";
-import { Alert } from "./Alert";
-import { log } from "console";
+
 
 interface TestData {
     image: string;

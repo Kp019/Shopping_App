@@ -1,8 +1,9 @@
 import Navbar from '../Components/Navbar';
 import FilterProducts from '../Components/FilterProducts';
 import useAuth from '@/hooks/useAuth';
-import { Component } from '@/Components/ui-components/Carousel';
+
 import { useSelector } from 'react-redux';
+import ComponentCarousel from '@/Components/ui-components/Carousel';
 
 
 const ProductList = () => {
@@ -20,9 +21,7 @@ const ProductList = () => {
     return (
         <div className='pb-20'>
             <Navbar />
-            <div className='w-full h-80 mb-20'>
-                <Component productList = {products}/>
-            </div>
+            <ComponentCarousel productList = {products}/>
             <FilterProducts action={'buy'}/>
         </div>
     );

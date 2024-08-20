@@ -96,15 +96,18 @@ function ProductDetails() {
                   </div>
               </div>
             </div>
-              <div className='flex flex-col w-full justify-center items-center gap-10 pt-10'>
+              <div className='flex flex-col w-full justify-center items-start gap-10 pt-10'>
                 <div className=' text-3xl font-bold'>Similar Products</div>
-                <div className='flex gap-5 flex-wrap justify-center items-start'>
-                {
-                  similarProducts.map((product) => (
-                    <Cards action={'buy'} setIsproduct={false} setIsEdit={false} {...product}/>))
-                }
+                <div className="flex flex-col w-full overflow-x-auto justify-center items-start gap-10">
+                  <div className='flex gap-5 w-screen overflow-hidden '>
+                  {
+                    similarProducts.map((product) => (
+                      <Cards action={'buy'} setIsproduct={false} setIsEdit={false} {...product}/>))
+                    }
+                  </div>
                 </div>
               </div>
+              
         </div>
     </div>
   )
